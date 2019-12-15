@@ -1,0 +1,22 @@
+sudo: required
+services:
+    - docker
+    
+before_install:
+    - docker build -t sidorov/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true sidorov/react-test npm test
+
+after_success:
+    - docker build -t sidorov/multi-client ./client
+    - docker build -t sidorov/multi-nginx ./nginx
+    - docker build -t sidorov/multi-server ./server
+    - docker build -t sidorov/multi-worker ./worker
+    # Log in to the docker CLI    
+    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+    # Take those image and push them to docker hub
+    - docker push sidorov/multi-client
+    - docker push sidorov/multi-nginx
+    - docker push sidorov/multi-server
+    - docker push sidorov/multi-worker
