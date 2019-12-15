@@ -24,7 +24,7 @@
         },
         {
             "name": "ngnix",
-            "image": "sidorov/multi-ngnix",
+            "image": "sidorov/multi-nginx",
             "hostname": "ngnix",
             "essential": true,
             "portMappings": [
