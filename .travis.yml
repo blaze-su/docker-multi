@@ -1,4 +1,5 @@
 sudo: required
+language: generic 
 services:
     - docker
     
@@ -14,7 +15,7 @@ after_success:
     - docker build -t sidorov/multi-server ./server
     - docker build -t sidorov/multi-worker ./worker
     # Log in to the docker CLI    
-    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
     # Take those image and push them to docker hub
     - docker push sidorov/multi-client
     - docker push sidorov/multi-nginx
